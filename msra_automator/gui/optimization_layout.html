@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otimização de Máquinas Remotas</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #2b2b2b;
+            color: #e0e0e0;
+            padding: 15px;
+        }
+
+        .header-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #207bc1;
+        }
+
+        .overall-progress-container {
+            background-color: #1e1e1e;
+            border: 1px solid #4d4d4d;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+
+        .overall-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .step-container {
+            background-color: #1e1e1e;
+            border: 1px solid #3a3a3a;
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 12px;
+            transition: border-color 0.2s ease;
+        }
+
+        .step-container:hover {
+            border-color: #207bc1;
+        }
+
+        .step-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .step-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .step-number {
+            background-color: #207bc1;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: bold;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .step-status {
+            font-size: 12px;
+            font-weight: bold;
+            color: #888888;
+            background-color: #2a2a2a;
+            padding: 3px 8px;
+            border-radius: 4px;
+            border: 1px solid #444444;
+        }
+
+        .step-description {
+            font-size: 12px;
+            color: #aaaaaa;
+            margin-bottom: 10px;
+        }
+
+        .hardware-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            background-color: #262626;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #333333;
+        }
+
+        .hardware-field {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .hardware-label {
+            font-size: 11px;
+            color: #207bc1;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .hardware-value {
+            font-size: 12px;
+            color: #ffffff;
+            background-color: #1a1a1a;
+            padding: 6px 8px;
+            border-radius: 4px;
+            border: 1px solid #404040;
+            font-family: 'Consolas', monospace;
+        }
+
+        .storage-comparison {
+            grid-column: span 2;
+            display: flex;
+            justify-content: space-between;
+            background-color: #1e262c;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid #207bc1;
+            margin-top: 4px;
+        }
+
+        .storage-item {
+            font-size: 12px;
+            font-weight: bold;
+            color: #81c784;
+        }
+
+        .progress-bar-bg {
+            background-color: #2a2a2a;
+            border-radius: 6px;
+            height: 10px;
+            width: 100%;
+            overflow: hidden;
+            border: 1px solid #444444;
+        }
+
+        .progress-bar-fill {
+            background: linear-gradient(90deg, #207bc1, #42a5f5);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-percentage {
+            font-size: 11px;
+            font-weight: bold;
+            color: #bbbbbb;
+            text-align: right;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-title">PAINEL DE OTIMIZAÇÃO DO SISTEMA</div>
+
+    <!-- Progresso Geral -->
+    <div class="overall-progress-container">
+        <div class="overall-header">
+            <span>Progresso Geral da Operação</span>
+            <span style="color: #207bc1;">0%</span>
+        </div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: 0%;"></div>
+        </div>
+    </div>
+
+    <!-- Container 1: Hardware -->
+    <div class="step-container">
+        <div class="step-header">
+            <div class="step-title">
+                <span class="step-number">1</span>
+                Coleta de Informações de Hardware
+            </div>
+            <span class="step-status">Pendente</span>
+        </div>
+        <div class="step-description">Identificação de componentes principais e medição do espaço livre em disco.</div>
+        
+        <div class="hardware-grid">
+            <div class="hardware-field">
+                <span class="hardware-label">Processador</span>
+                <div class="hardware-value">Aguardando leitura...</div>
+            </div>
+            <div class="hardware-field">
+                <span class="hardware-label">Memória RAM</span>
+                <div class="hardware-value">Aguardando leitura...</div>
+            </div>
+            <div class="storage-comparison">
+                <div class="storage-item">Espaço livre antes: **** GB</div>
+                <div class="storage-item" style="color: #64b5f6;">Espaço livre após os procedimentos: **** GB</div>
+            </div>
+        </div>
+
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: 0%;"></div>
+        </div>
+        <div class="progress-percentage">0%</div>
+    </div>
+
+    <!-- Container 2: Configurações de Desempenho -->
+    <div class="step-container">
+        <div class="step-header">
+            <div class="step-title">
+                <span class="step-number">2</span>
+                Ajuste das Configurações de Desempenho
+            </div>
+            <span class="step-status">Pendente</span>
+        </div>
+        <div class="step-description">Ajustar os efeitos visuais do Windows para priorizar o melhor desempenho do sistema.</div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: 0%;"></div>
+        </div>
+        <div class="progress-percentage">0%</div>
+    </div>
+
+    <!-- Container 3: Desfragmentação de Disco -->
+    <div class="step-container">
+        <div class="step-header">
+            <div class="step-title">
+                <span class="step-number">3</span>
+                Desfragmentação do Disco
+            </div>
+            <span class="step-status">Pendente</span>
+        </div>
+        <div class="step-description">Otimização e desfragmentação das unidades de armazenamento (HDD / SSD).</div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: 0%;"></div>
+        </div>
+        <div class="progress-percentage">0%</div>
+    </div>
+
+    <!-- Container 4: Limpeza de Pastas Temporárias -->
+    <div class="step-container">
+        <div class="step-header">
+            <div class="step-title">
+                <span class="step-number">4</span>
+                Limpeza de Pastas Temporárias
+            </div>
+            <span class="step-status">Pendente</span>
+        </div>
+        <div class="step-description">Remoção completa de arquivos de cache e temporários nas pastas %temp%, temp e prefetch.</div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: 0%;"></div>
+        </div>
+        <div class="progress-percentage">0%</div>
+    </div>
+
+    <!-- Container 5: Atualização do Firefox -->
+    <div class="step-container">
+        <div class="step-header">
+            <div class="step-title">
+                <span class="step-number">5</span>
+                Atualização do Navegador Firefox
+            </div>
+            <span class="step-status">Pendente</span>
+        </div>
+        <div class="step-description">Verificação e atualização para a versão mais recente e estável do Mozilla Firefox.</div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: 0%;"></div>
+        </div>
+        <div class="progress-percentage">0%</div>
+    </div>
+
+    <!-- Container 6: Desativação de Apps Pesados na Inicialização -->
+    <div class="step-container">
+        <div class="step-header">
+            <div class="step-title">
+                <span class="step-number">6</span>
+                Desativação de Aplicativos Pesados na Inicialização
+            </div>
+            <span class="step-status">Pendente</span>
+        </div>
+        <div class="step-description">Desabilitar inicialização automática de programas desnecessários ou de alto impacto.</div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: 0%;"></div>
+        </div>
+        <div class="progress-percentage">0%</div>
+    </div>
+
+    <!-- Container 7: Desativação de Processos em Segundo Plano -->
+    <div class="step-container">
+        <div class="step-header">
+            <div class="step-title">
+                <span class="step-number">7</span>
+                Desativação de Processos em Segundo Plano
+            </div>
+            <span class="step-status">Pendente</span>
+        </div>
+        <div class="step-description">Encerramento e otimização de serviços secundários e processos em background.</div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: 0%;"></div>
+        </div>
+        <div class="progress-percentage">0%</div>
+    </div>
+
+    <!-- Container 8: Windows Update -->
+    <div class="step-container">
+        <div class="step-header">
+            <div class="step-title">
+                <span class="step-number">8</span>
+                Aplicação de Atualizações do Windows Update
+            </div>
+            <span class="step-status">Pendente</span>
+        </div>
+        <div class="step-description">Busca, download e instalação dos pacotes de atualização pendentes do Windows.</div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: 0%;"></div>
+        </div>
+        <div class="progress-percentage">0%</div>
+    </div>
+
+</body>
+</html>

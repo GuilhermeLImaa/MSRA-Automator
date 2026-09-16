@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Fundo escuro padrão da UI -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A1C23" />
+      <stop offset="100%" stop-color="#111216" />
+    </linearGradient>
+    
+    <!-- Azul dos painéis e barras de progresso -->
+    <linearGradient id="blueAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#1D4ED8" />
+    </linearGradient>
+    
+    <!-- Laranja/Amarelo do botão de ação principal -->
+    <linearGradient id="orangeAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+  </defs>
+
+  <!-- Quadrado arredondado de fundo (sem brilho/sombra) -->
+  <rect width="512" height="512" rx="115" fill="url(#bgGradient)" />
+
+  <!-- Hexágono de Rede -->
+  <polygon points="256,70 417,163 417,349 256,442 95,349 95,163" fill="none" stroke="url(#blueAccent)" stroke-width="28" stroke-linejoin="round" />
+  
+  <!-- Nós de conexão da rede -->
+  <circle cx="256" cy="70" r="22" fill="#3B82F6" />
+  <circle cx="417" cy="163" r="22" fill="#3B82F6" />
+  <circle cx="417" cy="349" r="22" fill="#3B82F6" />
+  <circle cx="256" cy="442" r="22" fill="#3B82F6" />
+  <circle cx="95" cy="349" r="22" fill="#3B82F6" />
+  <circle cx="95" cy="163" r="22" fill="#3B82F6" />
+
+  <!-- Raio central (sem brilho/sombra) -->
+  <polygon points="285,150 155,300 245,300 225,380 355,220 255,220" fill="url(#orangeAccent)" />
+</svg>
