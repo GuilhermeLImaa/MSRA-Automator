@@ -52,8 +52,3 @@ Criamos um script que cuida de toda a configuração do ambiente e compilação 
   - Python 3.8+ (caso deseje executar diretamente os scripts `.py`).
   - Dependências listadas no `requirements.txt` (`PyQt6`, `pywinauto`, `pywin32`).
 
----
-
-## 📡 Compartilhando no GitHub
-
-Para colocar este projeto no seu perfil do GitHub e compartilhar com os colegas de equipe, siga o guia detalhado em [COMO_SUBIR_GITHUB.md](COMO_SUBIR_GITHUB.md).

@@ -13,6 +13,7 @@ from core.defrag_service import DiskDefragTask
 from core.temp_cleanup_service import TempCleanupTask
 from core.firefox_service import FirefoxUpdateTask
 from core.services_service import ServicesAndUpdatesTask
+from core.gpo_service import GPOTask
 from gui.report_dialog import ReportDialog
 from utils.helpers import copy_to_clipboard
 
@@ -255,6 +256,33 @@ class OptimizationDialog(QDialog):
         """)
         self.btn_generate_report.clicked.connect(self.open_report_dialog)
         top_layout.addWidget(self.btn_generate_report)
+
+        # Botão Atualizar GPO (Posicionado ao lado do botão Gerar Relatório)
+        self.btn_update_gpo = QPushButton("🔄 Atualizar GPO")
+        self.btn_update_gpo.setObjectName("GPOButton")
+        self.btn_update_gpo.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.btn_update_gpo.setStyleSheet("""
+            QPushButton#GPOButton {
+                background-color: #2b2b2b;
+                color: #64b5f6;
+                border: 1px solid #64b5f6;
+                border-radius: 6px;
+                padding: 6px 12px;
+                font-size: 12px;
+                font-weight: bold;
+            }
+            QPushButton#GPOButton:hover {
+                background-color: #64b5f6;
+                color: #121212;
+            }
+            QPushButton#GPOButton:disabled {
+                background-color: #1a1a1a;
+                color: #666666;
+                border: 1px solid #444444;
+            }
+        """)
+        self.btn_update_gpo.clicked.connect(self.run_gpo_update)
+        top_layout.addWidget(self.btn_update_gpo)
 
         top_layout.addStretch()
 
@@ -909,6 +937,33 @@ class OptimizationDialog(QDialog):
         report_text = self.generate_report_text()
         self.active_report_dialog = ReportDialog(report_text, parent=None)
         self.active_report_dialog.show()
+
+    def run_gpo_update(self):
+        """Dispara a atualização remota de GPO (gpupdate /force) via GPOTask."""
+        creds = self._validate_credentials()
+        if not creds:
+            return
+        admin_user, admin_pass = creds
+
+        self.btn_update_gpo.setEnabled(False)
+        self.btn_update_gpo.setText("⏳ Atualizando...")
+
+        target = self.hostname
+
+        self.gpo_thread = GPOTask(target, admin_user, admin_pass)
+        self.gpo_thread.finished.connect(self.on_gpo_update_finished)
+        self.gpo_thread.start()
+
+    def on_gpo_update_finished(self, log_output: str):
+        """Restaura o botão de GPO ao estado normal e exibe o log numa caixa QMessageBox.information."""
+        self.btn_update_gpo.setEnabled(True)
+        self.btn_update_gpo.setText("🔄 Atualizar GPO")
+
+        QMessageBox.information(
+            self,
+            "Resultado da Atualização de GPO",
+            log_output
+        )
 
     def generate_report_text(self) -> str:
         """Gera o texto do relatório formatado segundo as variáveis dinâmicas e checkmarks."""
